@@ -8,7 +8,6 @@ $ npm install
 ```
 Para instalar as dependências do projeto. Após, isso, use o comando:
 ```bash
-# watch mode
 $ npm run start:dev
 ```
 Para rodar a aplicação.
