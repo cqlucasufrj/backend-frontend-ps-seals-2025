@@ -1,6 +1,7 @@
 "use client";
 import api from "@/services/axios";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type DUV = {
@@ -59,15 +60,29 @@ export default function InfoDUV({
   return (
     <div className="flex flex-col items-center justify-items-center min-h-screen font-[family-name:var(--font-geist-sans)] bg-white pb-2">
       <header className="flex flex-col w-full items-center bg-[#071e48]">
-        <Image
-          src="/logoseals.png"
-          alt="Logo do PS Seals 2025"
-          width={150}
-          height={50}
-          className="w-36 sm:w-40" 
-        />
+        <Link href="/">
+          <Image
+            src="/logoseals.png"
+            alt="Logo do PS Seals 2025"
+            width={150}
+            height={50}
+            className="w-36 sm:w-40" 
+          />
+        </Link>
       </header>
       <main className="flex flex-col items-center sm:items-start w-full">
+        <Link href="/" className="text-[#071e48] hover:underline ml-2 mt-4 mb-2 flex flex-row items-center">
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="#071e48"
+            className="w-5 h-5 mr-2"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          Voltar para a lista de DUVs
+        </Link>
         <h1 className="text-2xl sm:text-3xl font-bold mt-8 mb-4 text-[#071e48] mx-auto">
           Informações da DUV
         </h1>
