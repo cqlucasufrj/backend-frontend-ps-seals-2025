@@ -24,12 +24,11 @@ export class DuvService {
   async findAll() {
     return this.prisma.dUV.findMany({
       include: {
-        navio: true,
-        listaDePassageiros: {
+        navio: {
           select: {
             id: true,
             nome: true,
-            foto: true,
+            bandeira: true,
           },
         },
       }
@@ -39,6 +38,18 @@ export class DuvService {
   async findOne(id: number) {
     return this.prisma.dUV.findUnique({
       where: { id: id },
+      include: {
+        navio: true,
+        listaDePassageiros: {
+          select: {
+            id: true,
+            nome: true,
+            foto: true,
+            nacionalidade: true,
+            SID: true,
+          },
+        },
+      }
     });
   }
 
