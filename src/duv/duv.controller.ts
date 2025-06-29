@@ -8,9 +8,9 @@ import { CreateDUVDto, UpdateDUVDto } from './dto/duv-dto';
 export class DuvController {
   constructor(private readonly duvService: DuvService) {}
 
-  @ApiOperation({ summary: 'Fazer login, gerar JWT' })
-  @ApiResponse({ status: 200, description: 'Login realizado' })
-  @ApiBody({ type: CreateDUVDto, description: 'Dados para login' })
+  @ApiOperation({ summary: 'Cria uma DUV' })
+  @ApiResponse({ status: 200, description: 'DUV criada' })
+  @ApiBody({ type: CreateDUVDto, description: 'Dados para criar uma DUV' })
   @Post()
   create(@Body() createDuvDto: CreateDUVDto) {
     return this.duvService.create(createDuvDto);
