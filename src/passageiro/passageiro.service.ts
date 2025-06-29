@@ -13,24 +13,24 @@ export class PassageiroService {
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prisma.passageiro.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prisma.passageiro.findUnique({
       where: { id: id },
     });
   }
 
-  update(id: number, updatePassageiroDto: Prisma.PassageiroUpdateInput) {
+  async update(id: number, updatePassageiroDto: Prisma.PassageiroUpdateInput) {
     return this.prisma.passageiro.update({
       where: { id: id },
       data: updatePassageiroDto,
       });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prisma.passageiro.delete({
       where: { id: id },
       });

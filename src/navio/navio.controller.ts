@@ -1,14 +1,13 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { NavioService } from './navio.service';
-import { CreateNavioDto } from './dto/create-navio.dto';
-import { UpdateNavioDto } from './dto/update-navio.dto';
+import { Prisma } from 'generated/prisma';
 
 @Controller('navio')
 export class NavioController {
   constructor(private readonly navioService: NavioService) {}
 
   @Post()
-  create(@Body() createNavioDto: CreateNavioDto) {
+  create(@Body() createNavioDto: Prisma.NavioCreateInput) {
     return this.navioService.create(createNavioDto);
   }
 
@@ -23,7 +22,7 @@ export class NavioController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNavioDto: UpdateNavioDto) {
+  update(@Param('id') id: string, @Body() updateNavioDto: Prisma.NavioUpdateInput) {
     return this.navioService.update(+id, updateNavioDto);
   }
 

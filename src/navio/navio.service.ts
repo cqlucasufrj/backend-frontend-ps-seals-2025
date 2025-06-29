@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNavioDto } from './dto/create-navio.dto';
-import { UpdateNavioDto } from './dto/update-navio.dto';
+import { Prisma } from 'generated/prisma';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class NavioService {
-  create(createNavioDto: CreateNavioDto) {
-    return 'This action adds a new navio';
+
+  constructor(private prisma: PrismaService) {}
+
+  async create(createNavioDto: Prisma.NavioCreateInput) {
+    return this.prisma.navio.create({
+      data: createNavioDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all navio`;
+  async findAll() {
+    return this.prisma.navio.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} navio`;
+  async findOne(id: number) {
+    return this.prisma.navio.findUnique({
+      where: { id: id },
+    });
   }
 
-  update(id: number, updateNavioDto: UpdateNavioDto) {
-    return `This action updates a #${id} navio`;
+  async update(id: number, updateNavioDto: Prisma.NavioUpdateInput) {
+    return this.prisma.navio.update({
+      where: { id: id },
+      data: updateNavioDto,
+      });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} navio`;
+  async remove(id: number) {
+    return this.prisma.navio.delete({
+      where: { id: id },
+      });
   }
 }
