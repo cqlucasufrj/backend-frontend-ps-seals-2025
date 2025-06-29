@@ -22,7 +22,18 @@ export class DuvService {
   }
 
   async findAll() {
-    return this.prisma.dUV.findMany();
+    return this.prisma.dUV.findMany({
+      include: {
+        navio: true,
+        listaDePassageiros: {
+          select: {
+            id: true,
+            nome: true,
+            foto: true,
+          },
+        },
+      }
+    });
   }
 
   async findOne(id: number) {
