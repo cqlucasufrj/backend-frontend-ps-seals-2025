@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model DUV {
+  id                    Int      @id @default(autoincrement())
+  navioId               Int
+  numeroDUV             String   @unique
+  dataDaViagem          DateTime @default(now())
+  navio                 Navio    @relation(fields: [navioId], references: [id])
+  listaDePassageiros    Passageiro[]
+}
+
+model Navio {
+  id                    Int      @id @default(autoincrement())
+  nome                  String   @unique
+  bandeira              Int
+  imagem                String   @default("https://i.insider.com/63fe5742d5d80a0018278d37?width=1200")
+  duvsRealizadas        DUV[]
+}
+
+model Passageiro {
+  id                    Int      @id @default(autoincrement())
+  nome                  String
+  tipo                  TipoPassageiro
+  SID                   String   @unique
+  nacionalidade         String
+  foto                  String   @default("https://randomuser.me/api/portraits/men/0.jpg")
+  duvsRealizadas        DUV[]
+}
+
+enum TipoPassageiro {
+  passageiro
+  tripulante
+}
