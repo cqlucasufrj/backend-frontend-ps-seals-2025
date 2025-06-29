@@ -8,6 +8,18 @@ export class PassageiroService {
   constructor(private prisma: PrismaService) {}
 
   async create(createPassageiroDto: CreatePassageiroDto) {
+
+    if (createPassageiroDto.tipo === "tripulante") {
+      if (!createPassageiroDto.SID) {
+        throw new Error("SID é obrigatório para tripulantes");
+      }
+    }
+    else {
+      if (createPassageiroDto.SID) {
+        throw new Error("SID não deve ser informado para passageiros");
+      }
+    }
+
     return this.prisma.passageiro.create({
       data: {
         nome: createPassageiroDto.nome,
