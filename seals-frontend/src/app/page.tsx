@@ -42,7 +42,7 @@ export default function Home() {
         />
       </header>
       <main className="flex flex-col items-center sm:items-start">
-        <h1 className="text-2xl sm:text-3xl font-bold mt-8 mb-4 text-[#071e48]">
+        <h1 className="text-2xl sm:text-3xl font-bold mt-8 mb-4 text-[#071e48] mx-auto">
           DUVs cadastradas
         </h1>
 
