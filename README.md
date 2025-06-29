@@ -2,15 +2,25 @@
 Esse é o meu repositório para a API do backend do processo seletivo 2025 da Seals Solutions.
 
 # Instruções
-Use o comando:
+
+1. Para instalar as dependências do projeto, use o comando:
 ```bash
 $ npm install
 ```
-Para instalar as dependências do projeto. Após, isso, use o comando:
+
+2. Crie um arquivo .env exatamente como aquele do .env.example. Uso a porta 443, mas caso queira, pode mudar.
+
+3. Gere apropriadamente o schema Prisma para o BD. Use o comando: 
+```bash
+$ npx prisma generate
+```
+
+4. Para rodar a API localmente, use o comando:
 ```bash
 $ npm run start:dev
 ```
-Para rodar a aplicação.
+
+Caso queira ver a documentação da API, estou utilizando Swagger, por isso, acesse http://localhost:443/api ou substitua 443 pela porta que inseriu.
 
 # Desafio Técnico 
 ## Entidades
