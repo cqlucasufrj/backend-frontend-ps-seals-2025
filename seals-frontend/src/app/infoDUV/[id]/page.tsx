@@ -12,6 +12,20 @@ type DUV = {
       imagem?: string;
       bandeira: string;
     };
+    listaPassageiros: {
+      SID?: string;
+      id: number;
+      nome: string;
+      nacionalidade: string;
+      foto?: string;
+    }[];
+    listaTripulantes: {
+      id: number;
+      nome: string;
+      SID?: string;
+      nacionalidade: string;
+      foto?: string;
+    }[];
   };
 
 export default function InfoDUV({
@@ -21,6 +35,8 @@ export default function InfoDUV({
 }) {
   const [loadingDUV, setLoadingDUV] = useState<boolean>(true);
   const [DUV, setDUV] = useState<DUV>();
+  const [visualizarPassageiros, setVisualizarPassageiros] = useState<boolean>(true); // Estado para controlar a visualização da lista de passageiros ou tripulantes
+  // true quando passageiros, false quando tripulantes
 
   const fetchDUVData = async () => {
     setLoadingDUV(true);
@@ -41,7 +57,7 @@ export default function InfoDUV({
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-items-center min-h-screen font-[family-name:var(--font-geist-sans)] bg-white">
+    <div className="flex flex-col items-center justify-items-center min-h-screen font-[family-name:var(--font-geist-sans)] bg-white pb-2">
       <header className="flex flex-col w-full items-center bg-[#071e48]">
         <Image
           src="/logoseals.png"
@@ -82,7 +98,8 @@ export default function InfoDUV({
         ) :
         DUV ?
         (
-        <div className="w-full max-w-[90%] mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="w-full max-w-[90%] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Primeira coluna */}
           <div className="w-full h-full space-y-8">
             <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-[#071e48] underline mx-auto">Número da DUV:</h2>
             <p className="text-md sm:text-lg font-medium text-[#071e48] mx-auto">{DUV.numeroDUV}</p>
@@ -109,8 +126,57 @@ export default function InfoDUV({
             </>}
           </div>
 
-          <div className="w-full h-full">
-            <p>fasdf</p>
+          {/* Segunda Coluna */}
+          <div className="w-full mx-auto h-full">
+            <h2 className="text-xl sm:text-2xl font-semibold text-center mb-2 text-[#071e48] underline mx-auto">Lista de Embarcados</h2>
+            <div className="flex justify-center mb-4">
+              <button
+                className={`px-4 py-2 mr-2 rounded-lg ${visualizarPassageiros ? "bg-[#071e48] text-white cursor-not-allowed" : "bg-gray-200 text-gray-800 cursor-pointer"}`}
+                onClick={() => setVisualizarPassageiros(true)}
+              >
+                Passageiros
+              </button>
+              <button
+                className={`px-4 py-2 rounded-lg ${!visualizarPassageiros ? "bg-[#071e48] text-white cursor-not-allowed" : "bg-gray-200 text-gray-800 cursor-pointer"}`}
+                onClick={() => setVisualizarPassageiros(false)}
+              >
+                Tripulantes
+              </button>
+            </div>
+            
+            {/* Tabela com a lista a ser exibida */}
+            <table className="min-w-full w-full max-w-[90%] bg-white border border-gray-200 shadow-md rounded-lg overflow-hidden">
+              <thead className="bg-[#071e48] text-white">
+                <tr>
+                  <th className="py-3 border-[1px] text-center text-xs sm:text-sm font-medium">Nome</th>
+                  {!visualizarPassageiros && <th className="py-3 border-[1px] text-center text-xs sm:text-sm font-medium">SID</th>}
+                  <th className="py-3 border-[1px] text-center text-xs sm:text-sm font-medium">Nacionalidade</th>
+                  <th className="py-3 border-[1px] text-center text-xs sm:text-sm font-medium">Foto</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(visualizarPassageiros ? DUV.listaPassageiros : DUV.listaTripulantes).map((pessoa) => (
+                  <tr key={pessoa.id} className="border-b border-gray-200">
+                    <td className="py-2 text-gray-800 bg-gray-100">{pessoa.nome}</td>
+                    {!visualizarPassageiros && <td className="px-4 py-2 text-gray-800">{pessoa.SID}</td>}
+                    <td className="py-2 text-gray-800 bg-gray-100">{pessoa.nacionalidade}</td>
+                    <td className="py-2 text-gray-800">
+                      {pessoa.foto ? (
+                        <Image
+                          src={pessoa.foto}
+                          alt={`Foto de ${pessoa.nome}`}
+                          width={50}
+                          height={50}
+                          className="w-12 h-12 rounded-full m-auto"
+                        />
+                      ) : (
+                        "Sem foto"
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
         )
