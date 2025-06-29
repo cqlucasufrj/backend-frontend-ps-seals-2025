@@ -1,6 +1,7 @@
 "use client";
 import api from "@/services/axios";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type DUV = {
@@ -104,24 +105,17 @@ export default function Home() {
                   {duv.navio?.nome || "Navio não informado"}
                 </td>
                 <td className="sm:px-6 py-4">
-                  <svg className="m-auto cursor-pointer w-12 h-8" width="24" height="24" viewBox="0 0 24 24" fill="#071e48">
-                    <path d="M15 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-.449s-4.252 8.449-11.985 8.449c-7.18 0-12.015-8.449-12.015-8.449s4.446-7.551 12.015-7.551c7.694 0 11.985 7.551 11.985 7.551zm-7 .449c0-2.757-2.243-5-5-5s-5 2.243-5 5 2.243 5 5 5 5-2.243 5-5z"/>
-                  </svg>
+                  <Link href={`/infoDUV/${duv.id}`} className="flex w-12 m-auto items-center justify-center">
+                    <svg className="m-auto w-12 h-8" width="24" height="24" viewBox="0 0 24 24" fill="#071e48">
+                      <path d="M15 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-.449s-4.252 8.449-11.985 8.449c-7.18 0-12.015-8.449-12.015-8.449s4.446-7.551 12.015-7.551c7.694 0 11.985 7.551 11.985 7.551zm-7 .449c0-2.757-2.243-5-5-5s-5 2.243-5 5 2.243 5 5 5 5-2.243 5-5z"/>
+                    </svg>
+                  </Link>
+                  
                 </td>
               </tr>
             ))}
           </tbody>
         </table>}
-        {/* <div className="flex items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Deploy now
-          </a>
-        </div> */}
       </main>
     </div>
   );
