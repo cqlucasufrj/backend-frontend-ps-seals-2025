@@ -1,12 +1,15 @@
 "use client";
 import api from "@/services/axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+
+  const [DUVs, setDUVs] = useState([]);
 
   const fetchDUVData = async () => {
     try {
       const response = await api.get("/duv");
+      setDUVs(response.data);
       console.log("DUVs encontradas:", response.data);
     } catch (error) {
       console.error("Erro obtendo as DUVs:", error);
