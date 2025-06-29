@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from 'generated/prisma';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateDUVDto, UpdateDUVDto } from './dto/duv-dto';
 
 @Injectable()
 export class DuvService {
 
   constructor(private prisma: PrismaService) {}
   
-  async create(createDUVDto: Prisma.DUVCreateInput) {
+  async create(createDUVDto: CreateDUVDto) {
     return this.prisma.dUV.create({
       data: createDUVDto,
     });
@@ -23,7 +23,7 @@ export class DuvService {
     });
   }
 
-  async update(id: number, updateDUVDto: Prisma.DUVUpdateInput) {
+  async update(id: number, updateDUVDto: UpdateDUVDto) {
     return this.prisma.dUV.update({
       where: { id: id },
       data: updateDUVDto,
