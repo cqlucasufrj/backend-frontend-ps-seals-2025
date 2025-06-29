@@ -1,5 +1,5 @@
-# Processo Seletivo - 2025
-Esse é o meu repositório para a API do backend do processo seletivo 2025 da Seals Solutions.
+# Processo Seletivo Seals Solutions - 2025
+Esse é o meu repositório para o processo seletivo 2025 da Seals Solutions. Apresentando uma API desenvolvida com NestJS e PrismaORM e um  frontend desenvolvido com NextJS.
 
 # Instruções
 
@@ -22,7 +22,7 @@ $ npm run start:dev
 
 Caso queira ver a documentação da API, estou utilizando Swagger, por isso, acesse http://localhost:443/api ou substitua 443 pela porta que inseriu.
 
-# Desafio Técnico 
+# Backend 
 ## Entidades
 As entidades envolvidas neste desafio técnico conectam DUV (Documento Único Virtual) que configura uma viagem de uma embarcação, os navios atrelados à viagem e passageiros.
 
