@@ -36,7 +36,7 @@ export class DuvService {
   }
 
   async findOne(id: number) {
-    return this.prisma.dUV.findUnique({
+    const duv = await this.prisma.dUV.findUnique({
       where: { id: id },
       include: {
         navio: true,
@@ -47,10 +47,34 @@ export class DuvService {
             foto: true,
             nacionalidade: true,
             SID: true,
+            tipo: true,
           },
         },
       }
     });
+
+    if (!duv) {
+      throw new Error(`DUV with id ${id} not found`);
+    }
+
+    const listaPassageiros: typeof duv.listaDePassageiros = [];
+    const listaTripulantes: typeof duv.listaDePassageiros = [];
+    for (const passageiro of duv.listaDePassageiros) {
+      if (passageiro.tipo === "tripulante") {
+        listaTripulantes.push(passageiro);
+      }
+      else if (passageiro.tipo === "passageiro") {
+        listaPassageiros.push(passageiro);
+      }
+    }
+
+    const duvComListasFormatadas = {
+      ...duv,
+      listaPassageiros,
+      listaTripulantes,
+    }
+
+    return duvComListasFormatadas;
   }
 
   async update(id: number, updateDUVDto: UpdateDUVDto) {
