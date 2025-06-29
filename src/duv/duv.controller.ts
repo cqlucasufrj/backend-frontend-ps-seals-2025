@@ -1,14 +1,13 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { DuvService } from './duv.service';
-import { CreateDuvDto } from './dto/create-duv.dto';
-import { UpdateDuvDto } from './dto/update-duv.dto';
+import { Prisma } from 'generated/prisma';
 
 @Controller('duv')
 export class DuvController {
   constructor(private readonly duvService: DuvService) {}
 
   @Post()
-  create(@Body() createDuvDto: CreateDuvDto) {
+  create(@Body() createDuvDto: Prisma.DUVCreateInput) {
     return this.duvService.create(createDuvDto);
   }
 
@@ -23,7 +22,7 @@ export class DuvController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDuvDto: UpdateDuvDto) {
+  update(@Param('id') id: string, @Body() updateDuvDto: Prisma.DUVUpdateInput) {
     return this.duvService.update(+id, updateDuvDto);
   }
 

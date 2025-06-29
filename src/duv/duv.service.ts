@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDuvDto } from './dto/create-duv.dto';
-import { UpdateDuvDto } from './dto/update-duv.dto';
+import { Prisma } from 'generated/prisma';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class DuvService {
-  create(createDuvDto: CreateDuvDto) {
-    return 'This action adds a new duv';
+
+  constructor(private prisma: PrismaService) {}
+  
+  async create(createDUVDto: Prisma.DUVCreateInput) {
+    return this.prisma.dUV.create({
+      data: createDUVDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all duv`;
+  async findAll() {
+    return this.prisma.dUV.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} duv`;
+  async findOne(id: number) {
+    return this.prisma.dUV.findUnique({
+      where: { id: id },
+    });
   }
 
-  update(id: number, updateDuvDto: UpdateDuvDto) {
-    return `This action updates a #${id} duv`;
+  async update(id: number, updateDUVDto: Prisma.DUVUpdateInput) {
+    return this.prisma.dUV.update({
+      where: { id: id },
+      data: updateDUVDto,
+      });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} duv`;
+  async remove(id: number) {
+    return this.prisma.dUV.delete({
+      where: { id: id },
+      });
   }
 }
