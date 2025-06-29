@@ -29,9 +29,9 @@ model Passageiro {
   id                    Int      @id @default(autoincrement())
   nome                  String
   tipo                  TipoPassageiro
-  SID                   String   @unique
+  SID                   String?   @unique
   nacionalidade         String
-  foto                  String   @default("https://randomuser.me/api/portraits/men/0.jpg")
+  foto                  String?   @default("https://randomuser.me/api/portraits/men/0.jpg")
   duvsRealizadas        DUV[]
 }
 

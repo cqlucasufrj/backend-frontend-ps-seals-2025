@@ -9,7 +9,13 @@ export class PassageiroService {
 
   async create(createPassageiroDto: CreatePassageiroDto) {
     return this.prisma.passageiro.create({
-      data: createPassageiroDto,
+      data: {
+        nome: createPassageiroDto.nome,
+        tipo: createPassageiroDto.tipo,
+        SID: createPassageiroDto.SID,
+        nacionalidade: createPassageiroDto.nacionalidade,
+        foto: createPassageiroDto.foto
+      },
     });
   }
 

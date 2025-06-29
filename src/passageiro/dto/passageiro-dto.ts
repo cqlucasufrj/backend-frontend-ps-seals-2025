@@ -29,8 +29,8 @@ export class CreatePassageiroDto {
     example: 'SID123456',
   })
   @IsString()
-  @IsNotEmpty()
-  SID: string;
+  @IsOptional()
+  SID?: string;
 
   @ApiProperty({
     description: 'Nacionalidade do passageiro',
