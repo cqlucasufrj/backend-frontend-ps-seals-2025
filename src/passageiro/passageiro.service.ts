@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Prisma } from 'generated/prisma';
+import { CreatePassageiroDto, UpdatePassageiroDto } from './dto/passageiro-dto';
 
 @Injectable()
 export class PassageiroService {
 
   constructor(private prisma: PrismaService) {}
 
-  async create(createPassageiroDto: Prisma.PassageiroCreateInput) {
+  async create(createPassageiroDto: CreatePassageiroDto) {
     return this.prisma.passageiro.create({
       data: createPassageiroDto,
     });
@@ -23,7 +23,7 @@ export class PassageiroService {
     });
   }
 
-  async update(id: number, updatePassageiroDto: Prisma.PassageiroUpdateInput) {
+  async update(id: number, updatePassageiroDto: UpdatePassageiroDto) {
     return this.prisma.passageiro.update({
       where: { id: id },
       data: updatePassageiroDto,

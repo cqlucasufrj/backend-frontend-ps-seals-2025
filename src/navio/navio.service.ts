@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from 'generated/prisma';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateNavioDto, UpdateNavioDto } from './dto/navio-dto';
 
 @Injectable()
 export class NavioService {
 
   constructor(private prisma: PrismaService) {}
 
-  async create(createNavioDto: Prisma.NavioCreateInput) {
+  async create(createNavioDto: CreateNavioDto) {
     return this.prisma.navio.create({
       data: createNavioDto,
     });
@@ -23,7 +23,7 @@ export class NavioService {
     });
   }
 
-  async update(id: number, updateNavioDto: Prisma.NavioUpdateInput) {
+  async update(id: number, updateNavioDto: UpdateNavioDto) {
     return this.prisma.navio.update({
       where: { id: id },
       data: updateNavioDto,
