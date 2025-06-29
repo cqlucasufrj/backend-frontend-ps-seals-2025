@@ -9,7 +9,15 @@ export class DuvService {
   
   async create(createDUVDto: CreateDUVDto) {
     return this.prisma.dUV.create({
-      data: createDUVDto,
+      data: 
+      {
+        numeroDUV: createDUVDto.numeroDUV,
+        dataDaViagem: createDUVDto.dataDaViagem,
+        navioId: createDUVDto.navioId,
+        listaDePassageiros: {
+          connect: createDUVDto.listaPassageiros.map(passageiro => ({ id: passageiro })),
+        },
+      },
     });
   }
 
