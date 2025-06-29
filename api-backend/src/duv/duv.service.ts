@@ -72,6 +72,7 @@ export class DuvService {
       ...duv,
       listaPassageiros,
       listaTripulantes,
+      listaDePassageiros: undefined, // Remove listaDePassageiros do objeto final
     }
 
     return duvComListasFormatadas;
