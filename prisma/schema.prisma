@@ -20,7 +20,7 @@ model DUV {
 model Navio {
   id                    Int      @id @default(autoincrement())
   nome                  String   @unique
-  bandeira              Int
+  bandeira              String
   imagem                String   @default("https://i.insider.com/63fe5742d5d80a0018278d37?width=1200")
   duvsRealizadas        DUV[]
 }
