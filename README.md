@@ -4,6 +4,7 @@ Esse é o meu repositório para o processo seletivo 2025 da Seals Solutions. Apr
 # Instruções
 
 O repositório apresenta duas pastas, uma com a api do backend e outra com o frontend, utilize o comando cd para acessar cada uma delas. O frontend depende da conexão com o backend na porta 443, é muito importante estar rodando os dois localmente ou mudar o endereço da porta, caso deseje.
+Também deixei a possibilidade de utilizar as informações do JSON fornecido, caso ocorra um erro de conexão, ou seja, se você não rodar o backend.
 
 ## Iniciando o Backend
 Inicialmente, lembre de utilizar todos esses comandos na pasta api-backend.
