@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import offlineInfo from "../../mock.json";
 
 type DUV = {
-    id: number;
+    id: number | string;
     numeroDUV: string;
     dataDaViagem: string;
     navio?: {
@@ -43,7 +43,7 @@ export default function Home() {
     const newList: DUV[] = [];
     offlineInfo.duvs.map((item) => {
       const newObj : DUV = {
-        id: +item.id,
+        id: item.id,
         numeroDUV: item.numero,
         dataDaViagem: item.data_viagem,
         navio: { nome: item.navio.nome }
@@ -105,8 +105,8 @@ export default function Home() {
         networkError 
         ?
         (<>
-        <h2 className="text-red-500 mx-auto text-2xl font-semibold">Erro obtendo dados do backend</h2>
-        <p className="text-red-500 mx-auto">Talvez você não tenha iniciado o backend localmente, deseja usar os dados offline?</p>
+        <h2 className="text-red-500 mx-auto text-2xl font-semibold text-center px-2">Erro obtendo dados do backend</h2>
+        <p className="text-red-500 mx-auto text-center px-2">Talvez você não tenha iniciado o backend localmente, deseja usar os dados offline?</p>
         <button
           className={`px-4 py-2 mt-4 rounded-lg visualizarPassageiros hover:bg-[#071e48] hover:text-white bg-gray-200 text-gray-800 cursor-pointer mx-auto`}
           onClick={() => obterDadosOffline()}

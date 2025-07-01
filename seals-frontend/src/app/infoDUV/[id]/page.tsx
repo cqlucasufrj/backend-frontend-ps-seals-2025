@@ -4,8 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import offlineInfo from "../../../../mock.json";
+
 type DUV = {
-    id: number;
+    id: number | string;
     numeroDUV: string;
     dataDaViagem: string;
     navio: {
@@ -14,16 +16,16 @@ type DUV = {
       bandeira: string;
     };
     listaPassageiros: {
-      SID?: string;
-      id: number;
+      SID?: string | null;
+      id: number | string;
       nome: string;
       nacionalidade: string;
       foto?: string;
     }[];
     listaTripulantes: {
-      id: number;
+      id: number | string;
       nome: string;
-      SID?: string;
+      SID?: string | null;
       nacionalidade: string;
       foto?: string;
     }[];
@@ -46,11 +48,51 @@ export default function InfoDUV({
       const response = await api.get(`/duv/${id}`);
       setDUV(response.data);
       console.log("DUV encontrada:", response.data);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro obtendo a DUV:", error);
     } finally {
         setLoadingDUV(false);
     }
+  };
+
+  const obterDadosOffline = async () => {
+    const { id } = await params;
+    const duvDesejada = offlineInfo.duvs.find((item) => item.id === id);
+    console.log(id);
+    console.log(duvDesejada);
+    if (!duvDesejada) {
+      return;
+    }
+    const listaPassageiros: DUV["listaPassageiros"] = [];
+    const listaTripulantes: DUV["listaTripulantes"] = [];
+    duvDesejada.lista_pessoas.map((pessoaId) => {
+      offlineInfo.pessoas.find((pessoa) => {
+        if (pessoa.id === pessoaId) {
+          const pessoaFormatada = {
+            id: pessoa.id,
+            nome: pessoa.nome,
+            SID: pessoa.sid,
+            nacionalidade: pessoa.nacionalidade,
+            foto: pessoa.foto
+          };
+          pessoa.tipo === "tripulante" ? listaTripulantes.push(pessoaFormatada) : listaPassageiros.push(pessoaFormatada);
+        }
+      });
+    });
+    const duvFormatada: DUV = {
+      id: duvDesejada.id,
+      numeroDUV: duvDesejada.numero,
+        dataDaViagem: duvDesejada.data_viagem,
+      navio: {
+        nome: duvDesejada.navio.nome,
+        imagem: duvDesejada.navio.imagem,
+        bandeira: duvDesejada.navio.bandeira,
+      },
+      listaPassageiros,
+      listaTripulantes
+    };
+    console.log(duvFormatada);
+    setDUV(duvFormatada);
   };
 
   useEffect(() => {
@@ -88,6 +130,7 @@ export default function InfoDUV({
         </h1>
 
         {loadingDUV ? (
+          // Quando está carregando
           <div className="flex items-center justify-center w-full h-64">
             <svg
               className="animate-spin h-10 w-10 text-[#071e48]"
@@ -199,6 +242,19 @@ export default function InfoDUV({
         (
           <div className="text-red-500 text-center mx-auto">
             <p>DUV não encontrada ou erro ao carregar.</p>
+            <p className="text-red-500 mx-auto">Talvez você não tenha iniciado o backend localmente, deseja usar os dados offline?</p>
+            <button
+              className={`px-4 py-2 mt-4 mr-4 rounded-lg visualizarPassageiros hover:bg-[#071e48] hover:text-white bg-gray-200 text-gray-800 cursor-pointer mx-auto`}
+              onClick={() => obterDadosOffline()}
+            >
+              Obter dados offline
+            </button>
+            <button
+              className={`px-4 py-2 mt-2 rounded-lg visualizarPassageiros hover:bg-[#071e48] hover:text-white bg-gray-200 text-gray-800 cursor-pointer mx-auto`}
+              onClick={() => fetchDUVData()}
+            >
+              Tentar novamente
+            </button>
           </div>
         )
         }
