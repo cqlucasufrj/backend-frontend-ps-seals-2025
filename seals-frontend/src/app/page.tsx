@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import offlineInfo from "../../mock.json";
+
 type DUV = {
     id: number;
     numeroDUV: string;
@@ -18,17 +20,38 @@ export default function Home() {
   const [loadingDUVs, setLoadingDUVs] = useState<boolean>(true);
   const [DUVs, setDUVs] = useState<DUV[]>([]);
 
+  const [networkError, setNetworkError] = useState(false);
+
   const fetchDUVData = async () => {
     setLoadingDUVs(true);
+    setNetworkError(false);
     try {
       const response = await api.get("/duv");
       setDUVs(response.data);
       console.log("DUVs encontradas:", response.data);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro obtendo as DUVs:", error);
+      if (error.code === "ERR_NETWORK") {
+        setNetworkError(true);
+      }
     } finally {
         setLoadingDUVs(false);
     }
+  };
+
+  const obterDadosOffline = async () => {
+    const newList: DUV[] = [];
+    offlineInfo.duvs.map((item) => {
+      const newObj : DUV = {
+        id: +item.id,
+        numeroDUV: item.numero,
+        dataDaViagem: item.data_viagem,
+        navio: { nome: item.navio.nome }
+      };
+      newList.push(newObj);
+    });
+    setDUVs(newList);
+    setNetworkError(false);
   };
 
   useEffect(() => {
@@ -51,7 +74,9 @@ export default function Home() {
           DUVs cadastradas
         </h1>
 
-        {loadingDUVs ? (
+        {loadingDUVs ? 
+        // Caso esteja carregando
+        (
           <div className="flex items-center justify-center w-full h-64">
             <svg
               className="animate-spin h-10 w-10 text-[#071e48]"
@@ -75,7 +100,29 @@ export default function Home() {
             </svg>
           </div>
         ) :
-        <table className="min-w-[70%] w-full max-w-[90%] mx-auto bg-white border border-gray-200 shadow-md rounded-lg overflow-x-auto">
+        // Caso não esteja mais carregando
+        // Caso tenha recebido erro de conexão
+        networkError 
+        ?
+        (<>
+        <h2 className="text-red-500 mx-auto text-2xl font-semibold">Erro obtendo dados do backend</h2>
+        <p className="text-red-500 mx-auto">Talvez você não tenha iniciado o backend localmente, deseja usar os dados offline?</p>
+        <button
+          className={`px-4 py-2 mt-4 rounded-lg visualizarPassageiros hover:bg-[#071e48] hover:text-white bg-gray-200 text-gray-800 cursor-pointer mx-auto`}
+          onClick={() => obterDadosOffline()}
+        >
+          Obter dados offline
+        </button>
+        <button
+          className={`px-4 py-2 mt-2 rounded-lg visualizarPassageiros hover:bg-[#071e48] hover:text-white bg-gray-200 text-gray-800 cursor-pointer mx-auto`}
+          onClick={() => fetchDUVData()}
+        >
+          Tentar novamente
+        </button>
+        </>)
+        :
+        // Caso não tenha recebido erro de conexão
+        (<table className="min-w-[70%] w-full max-w-[90%] mx-auto bg-white border border-gray-200 shadow-md rounded-lg overflow-x-auto">
           <thead className="bg-[#071e48] text-white">
             <tr>
               <th className="py-3 border-[1px] text-center text-xs sm:text-sm font-medium">
@@ -93,8 +140,8 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            {DUVs.map((duv) => (
-              <tr key={duv.id} className="border-b border-gray-200">
+            {DUVs.map((duv, index) => (
+              <tr key={index} className="border-b border-gray-200">
                 <td className="px-2 sm:px-6 py-4 text-sm text-gray-800 bg-gray-100">
                   {duv.numeroDUV}
                 </td>
@@ -115,7 +162,7 @@ export default function Home() {
               </tr>
             ))}
           </tbody>
-        </table>}
+        </table>)}
       </main>
     </div>
   );
