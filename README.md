@@ -39,7 +39,7 @@ $ npm install
 
 4. Para rodar o frontend localmente, use o comando:
 ```bash
-$ npm run start:dev
+$ npm run dev
 ```
 
 Para acessar o frontend vá para o navegador e acesse [http://localhost:3000](http://localhost:3000).
